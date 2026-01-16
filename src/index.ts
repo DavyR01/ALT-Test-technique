@@ -1,4 +1,4 @@
-import { customers, orders, products, promotions, shippingZones } from "./csv";
+import { orders, products } from "./csv";
 import { calculateBonus, calculateVolumeDiscount } from "./pricing/calculate";
 
 // Fonction principale de génération du rapport refactoré
