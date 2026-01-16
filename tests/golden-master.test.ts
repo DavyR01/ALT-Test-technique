@@ -1,6 +1,6 @@
-const { execSync } = require("node:child_process");
-const { existsSync, mkdirSync, readFileSync, writeFileSync } = require("node:fs");
-const path = require("node:path");
+import { execSync } from "node:child_process";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import path from "node:path";
 
 test("golden master", () => {
    const expectedDir = path.join("legacy", "expected");
