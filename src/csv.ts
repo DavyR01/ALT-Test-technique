@@ -55,7 +55,7 @@ export const shippingZones: ShippingZone[] = fs.readFileSync(path.join(dataPath,
    });
 
 
-
+// Test local
 if (require.main === module) {
    console.log("CSV parsing test:");
    console.log("Customers:", customers.length);
