@@ -1,13 +1,19 @@
 {
-  "name": "alt-test-technique",
+  "name": "order-report-legacy",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Legacy order report system - Refactoring test",
+  "main": "legacy/orderReportLegacy.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "legacy": "ts-node legacy/orderReportLegacy.ts",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs"
+  "devDependencies": {
+    "@types/jest": "^29.5.0",
+    "@types/node": "^20.0.0",
+    "jest": "^29.5.0",
+    "ts-jest": "^29.1.0",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.0.0"
+  }
 }
