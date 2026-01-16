@@ -1,8 +1,8 @@
-# Order Report – Legacy Refactoring
+# 🧾 Order Report – Legacy Refactoring
 
-## 1. Installation
+## ⚙️ 1. Installation
 
-### Prérequis
+### 🔧 Prérequis
 
 - Node.js
 - npm
@@ -16,10 +16,12 @@ npm install
 
 
 
-## 2. Exécution
+## ▶️ 2. Exécution
 
-### Exécuter les tests
-Cette commande exécute le test Golden Master. Ce test vérifie que la sortie du code refactoré est strictement identique, caractère par caractère, à cette référence.
+### 🧪 Exécuter les tests
+Cette commande exécute tous les tests, dont :
+- ✅ le test Golden Master (vérifie que le code refactoré produit la même sortie que le legacy)
+- ✅ des tests unitaires sur les fonctions métiers extraites
 ```
 npm test
 ```
@@ -37,16 +39,16 @@ node src/runRef.js
 ```
 
 ### Comparer avec le legacy (validation)
-La comparaison avec le code legacy est assurée par un test Golden Master.
+La comparaison avec le code legacy est assurée par un test Golden Master (`golden-master.test.ts`).
 
 Lors de la première exécution des tests, le fichier de référence suivant est généré :
 
 `legacy/expected/report.txt`
 
+Ce fichier devient la référence de sortie pour tous les tests futurs.
 
-
-## 3. Choix de Refactoring
-### Problèmes Identifiés dans le Legacy
+## 🧠 3. Choix de Refactoring
+### ❌ Problèmes Identifiés dans le Legacy
 
    1. **Responsabilités non séparées** : toute la logique (lecture, calcul, affichage) est centralisée dans un seul fichier.
       - Impact : difficile à tester, à maintenir, et à faire évoluer sans risque.
@@ -57,7 +59,7 @@ Lors de la première exécution des tests, le fichier de référence suivant est
    3. **Règles métiers cachées dans des blocs imbriqués** : logique de remise et bonus non explicites.
       - Impact : compréhension difficile, duplication potentielle, difficile à extraire ou tester.
 
-### Solutions Apportées
+### ✅ Solutions Apportées
 
    1. **Extraction de la lecture CSV**  
       - Déplacement dans un module dédié `csv.ts`
@@ -77,10 +79,15 @@ Lors de la première exécution des tests, le fichier de référence suivant est
       - Permet de tester la logique métier sans effet de bord
       - Requis pour comparer les sorties dans un test Golden Master (`runRef.js`)
 
-### Architecture Choisie
+### 🗂️ Architecture Choisie
 
 Le code refactoré est structuré par **responsabilités** :
+- lecture / parsing
+- règles métier
+- orchestration
+- exécution / affichage
 
+Signification des fichiers :
 - `pricing/calculate.ts` : fonctions pures pour les règles de calcul métier (remises et bonus)
 - `csv.ts` : lecture et parsing des fichiers de données CSV, centralisé
 - `index.ts` : orchestration principale via la fonction `generateReport()`
@@ -88,10 +95,10 @@ Le code refactoré est structuré par **responsabilités** :
 - `run.ts` : point d’entrée exécutable, séparé de la logique métier
 - `runRef.js` : point d’entrée utilisé pour les tests de non-régression (Golden Master) ou adaptateur de test qui exécute le code refactoré via `run.ts` pour comparaison avec le legacy
 
-Cette architecture permet de tester chaque partie isolément, de limiter les effets de bord, et de préparer l’ajout progressif des règles restantes
+Cette architecture permet de tester chaque partie isolément, de limiter les effets de bord, et de préparer l’ajout progressif des règles restantes.
 
 
-### Exemples Concrets
+### 🔍 Exemples Concrets
 
 **Exemple 1 : Parsing CSV**
 - Problème : lecture CSV inline dans le legacy, avec manipulation de chaînes
@@ -106,7 +113,7 @@ Cette architecture permet de tester chaque partie isolément, de limiter les eff
 - Solution : `generateReport()` dans `index.ts` + exécution via `run.ts`
 
 
-## 4.  Limites et Améliorations Possibles
+## 🚧 4. Limites et Améliorations Possibles
 
 ### Ce qui n'a pas été fait (par manque de temps)
 - Refactorisation complète de `generateReport()`
@@ -121,3 +128,11 @@ Cette architecture permet de tester chaque partie isolément, de limiter les eff
 - Compléter `generateReport()` pour couvrir tous les cas du legacy
 - Ajouter une vraie couverture de tests unitaires
 - Rendre les règles métier configurables ou plus flexibles
+
+
+
+## 🛠️ Note technique
+
+Le projet est compilé en `commonjs`, avec `esModuleInterop` activé dans `tsconfig.json`.  
+Cela permet d’utiliser la syntaxe moderne `import`/`export` dans les fichiers TypeScript,  
+tout en garantissant la compatibilité avec `ts-node`, `ts-jest`, et les modules Node (`fs`, `path`, etc.).
