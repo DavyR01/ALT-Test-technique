@@ -1,9 +1,10 @@
 import fs from "fs";
 import path from "path";
+import { Customer, Order, Product, Promotion, ShippingZone } from "./models";
 
 const dataPath = path.join(__dirname, "../legacy/data");
 
-export const customers = fs.readFileSync(path.join(dataPath, "customers.csv"), "utf8")
+export const customers: Customer[] = fs.readFileSync(path.join(dataPath, "customers.csv"), "utf8")
    .trim()
    .split("\n")
    .slice(1)
@@ -12,7 +13,7 @@ export const customers = fs.readFileSync(path.join(dataPath, "customers.csv"), "
       return { id, fullName, level, zone, currency };
    });
 
-export const orders = fs.readFileSync(path.join(dataPath, "orders.csv"), "utf8")
+export const orders: Order[] = fs.readFileSync(path.join(dataPath, "orders.csv"), "utf8")
    .trim()
    .split("\n")
    .slice(1)
@@ -21,7 +22,7 @@ export const orders = fs.readFileSync(path.join(dataPath, "orders.csv"), "utf8")
       return { id, customerId, productId, quantity: parseInt(quantity), date };
    });
 
-export const products = fs.readFileSync(path.join(dataPath, "products.csv"), "utf8")
+export const products: Product[] = fs.readFileSync(path.join(dataPath, "products.csv"), "utf8")
    .trim()
    .split("\n")
    .slice(1)
@@ -30,7 +31,7 @@ export const products = fs.readFileSync(path.join(dataPath, "products.csv"), "ut
       return { id, name, price: parseFloat(price), weight: parseFloat(weight) };
    });
 
-export const promotions = fs.readFileSync(path.join(dataPath, "promotions.csv"), "utf8")
+export const promotions: Promotion[] = fs.readFileSync(path.join(dataPath, "promotions.csv"), "utf8")
    .trim()
    .split("\n")
    .slice(1)
@@ -39,7 +40,7 @@ export const promotions = fs.readFileSync(path.join(dataPath, "promotions.csv"),
       return { id, type, value: parseFloat(value), startDate, endDate };
    });
 
-export const shippingZones = fs.readFileSync(path.join(dataPath, "shipping_zones.csv"), "utf8")
+export const shippingZones: ShippingZone[] = fs.readFileSync(path.join(dataPath, "shipping_zones.csv"), "utf8")
    .trim()
    .split("\n")
    .slice(1)
